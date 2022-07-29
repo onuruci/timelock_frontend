@@ -1,16 +1,11 @@
-import './App.css';
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { connectWallet, generateNewTimeLockWallet, getWalletsOfSender } from './utils/interactions';
-import WalletComponent from './components/WalletComponent';
-import Header from './components/Header';
+import WalletMapper from './components/WalletMapper';
 
 const App = () => {
-
-  const [signerWallet, setSignerWallet] = useState("");
   const [wallets, setWallets] = useState([]);
-  const [info, setInfo] = useState("");
- 
+
   useEffect(() => {
     const a = async () => {
       await connectWallet();
@@ -35,17 +30,12 @@ const App = () => {
 
   return (
     <div className="App">
-      <Header signerWallet={signerWallet} setSignerWallet={setSignerWallet} setInfo={setInfo}/>
-      <div>
-      <button onClick={() => handleGenerateNewWallet()}>Click to generate new timelock wallet</button>
-      <button onClick={() => handleGetWalletsOfSender()}>Click to get wallets</button>
-      {
-        wallets.map((w) => {
-          return(
-            <WalletComponent walletAddress={w} key={w}/>
-          );
-        })
-      }
+      <div style={{width: '100%'}}>
+        <div style={{maxWidth: '1400px', marginLeft: 'auto', marginRight:'auto', padding:'1rem 2rem'}}>
+          <button onClick={() => handleGenerateNewWallet()}>Click to generate new timelock wallet</button>
+          <button onClick={() => handleGetWalletsOfSender()}>Click to get wallets</button>
+          <WalletMapper wallets={wallets}/>
+        </div>
       </div>
     </div>
   );
