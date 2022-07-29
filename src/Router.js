@@ -9,6 +9,7 @@ import {
 import App from "./App";
 import WalletPage from "./components/WalletPage";
 import Header from "./components/Header";
+import './App.css'
 
 const Router = () => {
 
