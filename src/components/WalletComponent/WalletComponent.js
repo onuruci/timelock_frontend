@@ -3,13 +3,15 @@ import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { signer } from "../../utils/interactions";
 import { getWalletContractInfo } from "../../utils/interactions";
-import { WalletWraper } from "./ScWalletComponents";
+import { WalletWraper, WİthdrawButton } from "./ScWalletComponents";
+import { Link } from "react-router-dom";
 import eth1 from '../../common/eth1.png';
 import eth2 from '../../common/eth2.png';
 import eth3 from '../../common/eth3.png';
 import eth4 from '../../common/eth4.png';
 import eth5 from '../../common/eth5.svg';
 import unlockLogo from '../../common/unlock.png';
+import avalancheIcon from '../../common/avalanche-avax-logo.svg';
 
 const contractAbi = require("../../utils/WalletABI.json");
 
@@ -40,7 +42,7 @@ const WalletComponent = ({walletAddress}) => {
     }, []);
 
     return(
-        <div style={{width: '250px', marginTop: '1rem', padding:'0.5rem 0.5rem', marginLeft:'auto', marginRight:'auto'}}>
+        <Link to={"/wallet/" + walletAddress} style={{width: '250px', marginTop: '1rem', padding:'0.5rem 0.5rem', marginLeft:'auto', marginRight:'auto', textDecoration: 'none', color: 'black'}}>
             <WalletWraper>
                 <div style={{marginRight:'auto', width: '20px'}}>
                     <img src={unlockLogo} alt="" srcset="" style={{width: '20px'}}/>
@@ -48,17 +50,26 @@ const WalletComponent = ({walletAddress}) => {
                 <div style={{marginLeft: 'auto', marginRight:'auto', width: '100px', height:'120px', marginTop:'0.5rem'}}>
                     <img src={imgArr[Math.floor(Math.random() * 5)]} alt="" srcset="" style={{width: '100px'}}/>
                 </div>
-                <div>
-                    {walletBalance}
+                <div style={{marginLeft:'auto', marginRight:'auto', textAlign:'center', display:'flex', flexDirection:'row'}}>
+                    <div style={{marginLeft:'auto', marginRight:'0.5rem'}}>
+                        {walletBalance}
+                    </div>
+                    <img src={avalancheIcon} alt="" style={{width:'20px', marginRight:'auto', marginLeft:'0.5rem'}}/>
                 </div>
-                <div>
-                    {unlockDate}
+                <div style={{marginTop: '1rem', textAlign:'center'}}>
+                    {(unlockDate.slice(0, unlockDate.indexOf(',')).replaceAll('/', '.') + " - " + unlockDate.slice(unlockDate.indexOf(',')+1, unlockDate.indexOf(':', unlockDate.indexOf(':')+1)) + " " +unlockDate.slice(-2))}
                 </div>
-                <div>
+                {/* <div style={{marginTop: '0.5rem', textAlign:'center'}}>
                     <button onClick={() => handleWithdraw()}>Withdraw Funds</button>
+                    <WİthdrawButton> Withdraw Funds </WİthdrawButton>
+                </div> */}
+                <div style={{marginTop:'1rem', textAlign:'center', fontSize:'0.7vw'}}>
+                    <p>
+                        Click to get to wallet page
+                    </p>
                 </div>
             </WalletWraper>
-        </div>
+        </Link>
     );
 };
 

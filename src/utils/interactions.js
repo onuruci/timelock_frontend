@@ -7,7 +7,7 @@ var timelockFactoryContract;
 
 export const getWalletContractInfo = async (_timelockWalletContract, _setContractInfo) => {
     let a = await _timelockWalletContract.getContractInfo();
-    let d = new Date(parseInt(a[1]._hex));
+    let d = new Date(parseInt(a[1]._hex)*1000);
     _setContractInfo(d.toLocaleString(), ethers.utils.formatEther(a[2]._hex));
 };
 

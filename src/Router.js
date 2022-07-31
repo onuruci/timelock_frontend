@@ -21,7 +21,6 @@ const Router = () => {
             <Header signerWallet={signerWallet} setSignerWallet={setSignerWallet} setInfo={setInfo}/>
             <Routes>
                 <Route exact path="/" element={<App />} />
-                <Route exact path="/asd" element={<div>aa</div>} />
                 <Route exact path="/wallet/:walletAddress" element={<WalletPage />} />
             </Routes>
         </BrowserRouter>
