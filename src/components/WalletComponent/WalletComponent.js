@@ -11,6 +11,7 @@ import eth3 from '../../common/eth3.png';
 import eth4 from '../../common/eth4.png';
 import eth5 from '../../common/eth5.svg';
 import unlockLogo from '../../common/unlock.png';
+import lockLogo from '../../common/lock.png';
 import avalancheIcon from '../../common/avalanche-avax-logo.svg';
 
 const contractAbi = require("../../utils/WalletABI.json");
@@ -18,10 +19,12 @@ const contractAbi = require("../../utils/WalletABI.json");
 const imgArr = [eth1, eth2,  eth3, eth4, eth5];
 
 
-const WalletComponent = ({walletAddress}) => {
+const WalletComponent = ({walletAddress, notDisplay}) => {
     const [unlockDate, setUnlockDate] = useState("");
     const [walletBalance, setWalletBalance] = useState(0);
-
+    const [imgState, setImgState] = useState(Math.floor(Math.random() * 5));
+    const [displayComponent, setDisplay] = useState(true);
+ 
     const timelockWalletContract = new ethers.Contract(
         walletAddress,
         contractAbi,
@@ -39,16 +42,28 @@ const WalletComponent = ({walletAddress}) => {
 
     useEffect(() => {
         getWalletContractInfo(timelockWalletContract, setContractInfo);
+        if(notDisplay && walletBalance === 0 && unlockDate < Date.now()){
+            setDisplay(false);
+        }
     }, []);
 
+    useEffect(() => {
+        if(notDisplay && walletBalance == 0 && new Date(unlockDate).getTime() < Date.now()){
+            setDisplay(false);
+        } else {
+            setDisplay(true);
+        }
+        console.log("Date:  ", Date.now(), "  ", new Date(unlockDate).getTime());
+    }, [notDisplay]);
+
     return(
-        <Link to={"/wallet/" + walletAddress} style={{width: '250px', marginTop: '1rem', padding:'0.5rem 0.5rem', marginLeft:'auto', marginRight:'auto', textDecoration: 'none', color: 'black'}}>
+        <Link to={"/wallet/" + walletAddress} style={{width: '250px', marginTop: '1rem', padding:'0.5rem 0.5rem', marginLeft:'auto', marginRight:'auto', textDecoration: 'none', color: 'black', display: (displayComponent ? '' : 'none')}}>
             <WalletWraper>
                 <div style={{marginRight:'auto', width: '20px'}}>
-                    <img src={unlockLogo} alt="" srcset="" style={{width: '20px'}}/>
+                    <img src={new Date(unlockDate).getTime() < Date.now() ? unlockLogo : lockLogo} alt="" srcset="" style={{width: '20px'}}/>
                 </div>
                 <div style={{marginLeft: 'auto', marginRight:'auto', width: '100px', height:'120px', marginTop:'0.5rem'}}>
-                    <img src={imgArr[Math.floor(Math.random() * 5)]} alt="" srcset="" style={{width: '100px'}}/>
+                    <img src={imgArr[imgState]} alt="" srcset="" style={{width: '100px'}}/>
                 </div>
                 <div style={{marginLeft:'auto', marginRight:'auto', textAlign:'center', display:'flex', flexDirection:'row'}}>
                     <div style={{marginLeft:'auto', marginRight:'0.5rem'}}>

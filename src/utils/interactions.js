@@ -17,12 +17,13 @@ export const getWalletsOfSender = async (walletSetter) => {
     console.log(addressArr);
 };
 
-export const generateNewTimeLockWallet = async () => {
-    let newAddress =  await timelockFactoryContract.newWallet(1659016713, {value: ethers.utils.parseEther("0.1")});
+export const generateNewTimeLockWallet = async (_date, _valueAvax) => {
+    console.log(_date);
+    let newAddress =  await timelockFactoryContract.newWallet(Math.floor(new Date(_date).getTime() / 1000), {value: ethers.utils.parseEther(_valueAvax)});
     console.log(newAddress);
 };
 
-export const connectWallet = async () => {
+export const connectWallet = async (setSigner) => {
     if(window.ethereum) {
         await window.ethereum.enable();
         provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -33,9 +34,61 @@ export const connectWallet = async () => {
             signer
         );
         let add = await signer.getAddress();
+        setSigner(add);
         console.log("Signer: ", add);
         console.log(timelockFactoryContract);
     } else {
         return("You should install metamask");
     }
 };
+
+export const getCurrentWalletConnected = async (setSigner) => {
+    if (window.ethereum) {
+      try {
+        const addressArray = await window.ethereum.request({method: "eth_accounts",});
+        if (addressArray.length > 0) {
+            provider = new ethers.providers.Web3Provider(window.ethereum);
+            signer = await provider.getSigner();
+            timelockFactoryContract = new ethers.Contract(
+                contractAddress,
+                contractAbi,
+                signer
+            );
+            let add = await signer.getAddress();
+            setSigner(add);
+            console.log("Current: ", add);
+          return {
+            address: addressArray[0],
+            status: "👆🏽 You can send ropsten ether to your account",
+          };
+        } 
+        else {
+          return {
+            address: "",
+            status: "🦊 Connect to Metamask using the top right button.",
+          };
+        }
+      } catch (err) {
+        return {
+          address: "",
+          status: "😥 " + err.message,
+        };
+      }
+    } else {
+      return {
+        address: "",
+        status: (
+        <span>
+          <p>
+            {" "}
+            🦊{" "}
+            <a target="_blank" href={`https://metamask.io/download.html`}>
+              You must install Metamask, a virtual Ethereum wallet, in your
+              browser.
+            </a>
+          </p>
+        </span>
+        ),
+      };
+    }
+  };

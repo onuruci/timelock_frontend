@@ -10,6 +10,7 @@ import App from "./App";
 import WalletPage from "./components/WalletPage";
 import Header from "./components/Header";
 import './App.css'
+import { signer } from "./utils/interactions";
 
 const Router = () => {
 
@@ -20,8 +21,8 @@ const Router = () => {
         <BrowserRouter>
             <Header signerWallet={signerWallet} setSignerWallet={setSignerWallet} setInfo={setInfo}/>
             <Routes>
-                <Route exact path="/" element={<App />} />
-                <Route exact path="/wallet/:walletAddress" element={<WalletPage />} />
+                <Route exact path="/" element={<App signer={signer}/>} />
+                <Route exact path="/wallet/:walletAddress" element={<WalletPage setSigner={setSignerWallet}/>} />
             </Routes>
         </BrowserRouter>
     );
