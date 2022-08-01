@@ -42,7 +42,7 @@ const WalletComponent = ({walletAddress, notDisplay}) => {
 
     useEffect(() => {
         getWalletContractInfo(timelockWalletContract, setContractInfo);
-        if(notDisplay && walletBalance === 0 && unlockDate < Date.now()){
+        if(notDisplay && walletBalance === 0 && new Date(unlockDate).getTime() < Date.now()){
             setDisplay(false);
         }
     }, []);

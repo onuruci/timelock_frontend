@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { connectWallet, generateNewTimeLockWallet, getWalletsOfSender } from './utils/interactions';
 import WalletMapper from './components/WalletMapper';
 import NewWalletGenerator from './components/NewWalletGenerator';
+import { SwitchWrapper } from './components/common/ScCommon';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 
@@ -51,9 +52,9 @@ const App = ({signer}) => {
         <div style={{maxWidth: '1400px', marginLeft: 'auto', marginRight:'auto', padding:'1rem 2rem'}}>
           <NewWalletGenerator/>
           {/* <button onClick={() => handleGenerateNewWallet()}>Click to generate new timelock wallet</button> */}
-          <div style={{marginTop:'1rem', maxWidth:'240px', padding:'0.5rem 0.5rem', marginLeft:'auto', marginRight:'8rem'}}>
+          <SwitchWrapper>
             <FormControlLabel control={<Switch onChange={(e) => handleSwitch(e)}/>} label="Disable Old Wallets" />
-          </div>
+          </SwitchWrapper>
           <WalletMapper wallets={wallets} notDisplay={notDisplay}/>
         </div>
       </div>

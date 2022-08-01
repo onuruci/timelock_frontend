@@ -32,6 +32,19 @@ const WalletPage = ({setSigner}) => {
         setBalance(_balance);
     };
 
+    const handleAddFund = async () => {
+        console.log("Sending");
+
+        let tx = {
+            to: walletAddress,
+            value: ethers.utils.parseEther(valueAvax),
+            gasLimit: 50000
+          };
+        
+        const transaction = await signer.sendTransaction(tx)
+        console.log(transaction);
+    };
+
     const handleWithdraw = async () => {
         const {hash} = await timelockWalletContract.withdraw({gasLimit: 50000});
     };
@@ -79,7 +92,7 @@ const WalletPage = ({setSigner}) => {
                         </Input>
                     </div>     
 
-                    <button style={{border:'2px solid', padding:'5px 10px' ,textAlign:'center', fontSize:'12px', fontWeight:'bold', boxShadow:'3px 3px'}}>
+                    <button onClick={() => handleAddFund()} style={{border:'2px solid', padding:'5px 10px' ,textAlign:'center', fontSize:'12px', fontWeight:'bold', boxShadow:'3px 3px'}}>
                         Add Fund
                     </button>
                 </div>
