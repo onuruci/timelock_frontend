@@ -12,4 +12,7 @@ export const HeaderWrapper = styled.div`
     height: 4.75rem;
     display: flex;
     flex-direction: row;
+    @media (max-width : 620px) {
+      padding: 0.5rem 1rem
+    }
 `;

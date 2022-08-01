@@ -8,6 +8,9 @@ export const LogoWrapper = styled.div`
     display: flex;
     flex-direction: row;
     cursor: pointer;
+    @media (max-width : 620px) {
+      margin-left: 0;
+    }
 `;
 
 export const LogoImgWrapper = styled.div`
