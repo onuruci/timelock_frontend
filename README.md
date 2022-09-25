@@ -1,4 +1,4 @@
-# TimeLocked Frontend App
+# TimeLocked Decentralized App
 
 This is a web3 app lets you store your Avax tokens for an interval of time. Since Avalanche C-Chain uses Ethereum Virtual Machine,
 related smart contracts for this time locked wallet dapp is written in Solidity lang. Instead of Ethreum it is live on Avalanche Fuji Testnet.
